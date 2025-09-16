@@ -84,6 +84,7 @@ func handleMapTask(mapf func(string,string)[]KeyValue, task TaskReply){
 	content, err := io.ReadAll(file)
 	if err != nil{
 		log.Fatal("Can't read filename %v", filename)
+		file.Close()
 		return
 	}
 	file.Close()
@@ -112,7 +113,7 @@ func handleMapTask(mapf func(string,string)[]KeyValue, task TaskReply){
 			return
 		}
 		enc := json.NewEncoder(file)  
-		for _,kv := range(intermediateFiles){
+		for _,kv := range(intermediateFiles[i]){
 			err := enc.Encode(&kv)
 			if err != nil{
 				log.Fatalf("Con't write to %v",intermediateFileNames)
